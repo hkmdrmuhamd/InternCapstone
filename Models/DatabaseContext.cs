@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InternCapstone.Models
 {
-    public class DatabaseContext : IdentityDbContext<IdentityUser>
+    public class DatabaseContext : IdentityDbContext<AppUser, AppRole, string>
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
