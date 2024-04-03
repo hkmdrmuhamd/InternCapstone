@@ -2,7 +2,7 @@ using InternCapstone.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace InternCapstone.Models
+namespace InternCapstone.Data.Concrete.EfCore
 {
     public static class SeedData
     {
