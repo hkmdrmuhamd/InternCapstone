@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InternCapstone.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class UpdateTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,7 @@ namespace InternCapstone.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: true),
+                    SubDivisionId = table.Column<int>(type: "integer", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -50,6 +51,19 @@ namespace InternCapstone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    DepartmentId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DepartmentName = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.DepartmentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,6 +172,55 @@ namespace InternCapstone.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SubDivisions",
+                columns: table => new
+                {
+                    SubDivisionId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SubDivisionName = table.Column<string>(type: "text", nullable: true),
+                    DepartmentId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubDivisions", x => x.SubDivisionId);
+                    table.ForeignKey(
+                        name: "FK_SubDivisions_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "DepartmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppUserSubDivision",
+                columns: table => new
+                {
+                    SubDivisionsSubDivisionId = table.Column<int>(type: "integer", nullable: false),
+                    UsersId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUserSubDivision", x => new { x.SubDivisionsSubDivisionId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_AppUserSubDivision_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppUserSubDivision_SubDivisions_SubDivisionsSubDivisionId",
+                        column: x => x.SubDivisionsSubDivisionId,
+                        principalTable: "SubDivisions",
+                        principalColumn: "SubDivisionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppUserSubDivision_UsersId",
+                table: "AppUserSubDivision",
+                column: "UsersId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,11 +257,19 @@ namespace InternCapstone.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubDivisions_DepartmentId",
+                table: "SubDivisions",
+                column: "DepartmentId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppUserSubDivision");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -215,10 +286,16 @@ namespace InternCapstone.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "SubDivisions");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
         }
     }
 }

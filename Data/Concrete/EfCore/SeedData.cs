@@ -1,3 +1,4 @@
+using InternCapstone.Entity;
 using InternCapstone.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,18 +20,67 @@ namespace InternCapstone.Data.Concrete.EfCore
 
             var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
-            var user = await userManager.FindByNameAsync(adminUser);
+            var userAdmin = await userManager.FindByNameAsync(adminUser);
 
-            if (user == null)
+            if (userAdmin == null)
             {
-                user = new AppUser
+                userAdmin = new AppUser
                 {
                     UserName = adminUser,
                     FullName = "Admin",
                     Email = "admin@mhkmdr.com",
-                    PhoneNumber = "1234567890"
+                    PhoneNumber = "1234567890",
                 };
-                await userManager.CreateAsync(user, adminPassword);
+                await userManager.CreateAsync(userAdmin, adminPassword);
+            }
+
+            if (!context.Departments.Any())
+            {
+                context.Departments.AddRange(
+                    new Department
+                    {
+                        DepartmentName = "Bilgi İşlem Departmanı",
+                        SubDivisions = new List<SubDivision>
+                        {
+                            new SubDivision {
+                                 SubDivisionName = "Yazılım Geliştirme"
+                            },
+                            new SubDivision {
+                                SubDivisionName = "Sistem Yönetimi"
+                            },
+                            new SubDivision {
+                                SubDivisionName = "Network Yönetimi"
+                            }
+                        }
+                    },
+                    new Department
+                    {
+                        DepartmentName = "İnsan Kaynakları Departmanı",
+                        SubDivisions = new List<SubDivision>
+                        {
+                            new SubDivision {
+                                SubDivisionName = "İşe Alım"
+                            },
+                            new SubDivision {
+                                SubDivisionName = "İşten Çıkarma"
+                            }
+                        }
+                    },
+                    new Department
+                    {
+                        DepartmentName = "Maliye Departmanı",
+                        SubDivisions = new List<SubDivision>
+                        {
+                            new SubDivision {
+                                SubDivisionName = "Muhasebe"
+                            },
+                            new SubDivision {
+                                SubDivisionName = "Finans"
+                            }
+                        }
+                    }
+                );
+                context.SaveChanges();
             }
         }
     }

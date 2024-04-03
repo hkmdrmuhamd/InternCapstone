@@ -1,7 +1,6 @@
+using InternCapstone.Data.Concrete.EfCore;
 using InternCapstone.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
