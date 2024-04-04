@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InternCapstone.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240403111212_UpdateTables")]
-    partial class UpdateTables
+    [Migration("20240404115312_UpdateColumn")]
+    partial class UpdateColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,6 +115,9 @@ namespace InternCapstone.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<string>("DepartmentId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -150,9 +153,6 @@ namespace InternCapstone.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
-
-                    b.Property<int>("SubDivisionId")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");

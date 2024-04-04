@@ -1,3 +1,4 @@
+using InternCapstone.Data.Abstract;
 using InternCapstone.Data.Concrete.EfCore;
 using InternCapstone.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<DatabaseContext>();
+builder.Services.AddScoped<ISubDivisionRepository, EfSubDivisionRepository>();
+builder.Services.AddScoped<IDepartmentRepository, EfDepartmentRepository>();
 
 var app = builder.Build();
 
