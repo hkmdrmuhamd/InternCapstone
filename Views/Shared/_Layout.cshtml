@@ -187,9 +187,35 @@
 
         <main role="main" class="col-md-9 pb-3">
             <div class="text-end">
-                <a asp-controller="Account" asp-action="SignIn" type="button" class="btn btn-outline-dark">Sign-in</a>
-                <a asp-controller="Account" asp-action="SignUp" type="button" class="btn btn-outline-dark">Sign-up</a>
+                <ul class="navbar-nav">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="d-none d-sm-inline">Merhaba, </span>@User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="Profile">Profil</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Çıkış Yap</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <div class="text-end">
+                            <a type="button" class="btn btn-outline-dark" asp-controller="Account"
+                                asp-action="Sign-In">Sign-in</a>
+                            <a type="button" class="btn btn-outline-dark" asp-controller="Account"
+                                asp-action="Sign-Up">Sign-up</a>
+                        </div>
+                    }
+                </ul>
             </div>
+
             @RenderBody()
         </main>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
