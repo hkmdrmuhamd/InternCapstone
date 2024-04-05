@@ -50,10 +50,13 @@ namespace InternCapstone.Controllers
                     IdentityResult result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        var url = Url.Action("ConfirmEmail", "Account", new { user.Id, token });
+                        if (user.Email != null)
+                        {
+                            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            var url = Url.Action("ConfirmEmail", "Account", new { user.Id, token });
 
-                        await _emailSender.SendEmailAsync(user.Email, "Hesabınızı Onaylayın", $"Lütfen e-mail hesabınızı onaylamak için linke <a href='http://localhost:5073{url}'>tıklayınız</a>");
+                            await _emailSender.SendEmailAsync(user.Email, "Hesabınızı Onaylayın", $"Lütfen e-mail hesabınızı onaylamak için linke <a href='http://localhost:5073{url}'>tıklayınız</a>");
+                        }
                         TempData["message"] = "Email hesabınızdaki onay mailine tıklayınız";
                         return RedirectToAction("Index", "Home");
                     }
