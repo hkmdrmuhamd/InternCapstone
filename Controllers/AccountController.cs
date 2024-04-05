@@ -1,5 +1,4 @@
 using InternCapstone.Data.Abstract;
-using InternCapstone.Entity;
 using InternCapstone.Models;
 using InternCapstone.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -14,15 +13,17 @@ namespace InternCapstone.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IDepartmentRepository _departmentRepository;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IDepartmentRepository departmentRepository)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IDepartmentRepository departmentRepository, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _departmentRepository = departmentRepository;
+            _emailSender = emailSender;
         }
 
-        public async Task<IActionResult> SignUpAsync()
+        public async Task<IActionResult> SignUp()
         {
             var departments = await _departmentRepository.Departments.Select(i => new SelectListItem { Value = i.DepartmentId.ToString(), Text = i.DepartmentName }).ToListAsync();
             var viewModel = new SignUpViewModel
@@ -46,9 +47,14 @@ namespace InternCapstone.Controllers
                 };
                 if (model.Password != null)
                 {
-                    var result = await _userManager.CreateAsync(user, model.Password);
+                    IdentityResult result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var url = Url.Action("ConfirmEmail", "Account", new { user.Id, token });
+
+                        await _emailSender.SendEmailAsync(user.Email, "Hesabınızı Onaylayın", $"Lütfen e-mail hesabınızı onaylamak için linke <a href='http://localhost:5073{url}'>tıklayınız</a>");
+                        TempData["message"] = "Email hesabınızdaki onay mailine tıklayınız";
                         return RedirectToAction("Index", "Home");
                     }
 
@@ -59,6 +65,78 @@ namespace InternCapstone.Controllers
                 }
             }
             return View(model);
+        }
+
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignIn(SignInViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.UserName != null && model.Password != null)
+                {
+                    var user = await _userManager.FindByNameAsync(model.UserName);
+                    if (user != null)
+                    {
+                        await _signInManager.SignOutAsync();
+
+                        if (!await _userManager.IsEmailConfirmedAsync(user))
+                        {
+                            ModelState.AddModelError("", "Lütfen e-posta adresinizi doğrulayın.");
+                            return View(model);
+                        }
+
+                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
+                        if (result.Succeeded)
+                        {
+                            await _userManager.ResetAccessFailedCountAsync(user);
+                            await _userManager.SetLockoutEndDateAsync(user, null);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else if (result.IsLockedOut)
+                        {
+                            var lockoutDate = await _userManager.GetLockoutEndDateAsync(user);
+                            var timeLeft = lockoutDate.Value - DateTime.UtcNow;
+                            ModelState.AddModelError("", $"Hesabınız {timeLeft.Minutes} dakika boyunca kilitlenmiştir.");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Şifre hatalı");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Kullanıcı adı hatalı");
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string Id, string token)
+        {
+            if (Id == null || token == null)
+            {
+                TempData["message"] = "Geçersiz token bilgisi";
+                return View();
+            }
+
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user != null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    TempData["message"] = "Hesabınız onaylandı";
+                    return RedirectToAction("SignIn", "Account");
+                }
+            }
+            TempData["message"] = "Kullanıcı Bulunamadı";
+            return View();
         }
     }
 }
