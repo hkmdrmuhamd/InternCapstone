@@ -1,20 +1,25 @@
 @model SignInViewModel
 
-<h2>SignIn</h2>
-<hr>
-<form asp-action="SignIn" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="mb-3">
-        <label asp-for="UserName" class="form-label"></label>
-        <input asp-for="UserName" class="form-control" />
+<div style="background-color: #ffffff; padding: 20px; text-align: center; margin-top: 150px;">
+    <div style="display: inline-block; text-align: left; max-width: 300px;">
+        <h2>Lütfen Giriş Yapın</h2>
+        <hr>
+        <form asp-action="SignIn" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mb-3">
+                <label for="UserName" class="form-label">UserName</label>
+                <input asp-for="UserName" class="form-control" id="UserName" placeholder="Kullanıcı adınızı girin" />
+            </div>
+            <div class="mb-3">
+                <label for="Password" class="form-label">Şifre</label>
+                <input asp-for="Password" class="form-control" id="Password" placeholder="Şifrenizi girin"
+                    type="password" />
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="RememberMe" id="RememberMe">
+                <label class="form-check-label" for="RememberMe">Beni Hatırla</label>
+            </div>
+            <button class="btn btn-primary" type="submit">Giriş Yap</button>
+        </form>
     </div>
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" class="form-control" />
-    </div>
-    <div class="form-check mb-3">
-        <input class="form-check-input" asp-for="RememberMe">
-        <label class="form-check-label" asp-for="RememberMe">Beni Hatırla</label>
-    </div>
-    <button class="btn btn-primary" type="submit">Kaydet</button>
-</form>
+</div>

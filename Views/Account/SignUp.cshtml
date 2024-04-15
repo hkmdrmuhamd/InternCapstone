@@ -1,52 +1,60 @@
 @model SignUpViewModel
 
-<div class="container">
-    <h2>Kayıt Ol</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            <form asp-action="SignUp" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="FullName"></label>
-                    <input asp-for="FullName" class="form-control" />
-                    <span asp-validation-for="FullName" class="text-danger"></span>
+<div style="background-color: white; padding: 20px; text-align: center; margin-top: 200px;">
+    <div style="display: inline-block; text-align: left; max-width: 500px;">
+        <h2>Kayıt Ol</h2>
+        <hr>
+        <form asp-action="SignUp" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="FullName" class="form-label">Tam Adı</label>
+                        <input asp-for="FullName" class="form-control" id="FullName" placeholder="Tam adınızı girin" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="UserName" class="form-label">Kullanıcı Adı</label>
+                        <input asp-for="UserName" class="form-control" id="UserName"
+                            placeholder="Kullanıcı adınızı girin" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Email" class="form-label">E-Posta</label>
+                        <input asp-for="Email" class="form-control" id="Email" placeholder="E-posta adresinizi girin" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="UserName"></label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" type="password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConfirmPassword"></label>
-                    <input asp-for="ConfirmPassword" type="password" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="DepartmentId">Departman Seçiniz:</label>
-                    <select class="form-control" id="DepartmentId" name="DepartmentId">
-                        <option value="">-- Seçiniz --</option>
-                        @if (Model.Departments != null)
-                        {
-                            @foreach (var department in Model.Departments)
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="Password" class="form-label">Parola</label>
+                        <input asp-for="Password" type="password" class="form-control" id="Password"
+                            placeholder="Parolanızı girin" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword" class="form-label">Parola Doğrula</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="ConfirmPassword"
+                            placeholder="Parolanızı tekrar girin" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DepartmentId" class="form-label">Departman</label>
+                        <select class="form-control" id="DepartmentId" name="DepartmentId">
+                            <option value="">-- Seçiniz --</option>
+                            @if (Model.Departments != null)
                             {
-                                <option value="@department.Value">@department.Text</option>
+                                @foreach (var department in Model.Departments)
+                                {
+                                    <option value="@department.Value">@department.Text</option>
+                                }
                             }
-                        }
-                    </select>
+                        </select>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Kayıt Ol</button>
-            </form>
-        </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2"
+                style="align-item: center; justify-content: center; ">Kayıt Ol</button>
+        </form>
     </div>
 </div>
