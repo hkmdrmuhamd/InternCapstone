@@ -179,6 +179,10 @@
                             </a>
                             <ul class="dropdown-menu text-small shadow">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="SignUp">Sign-up</a></li>
+                                }
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -190,11 +194,10 @@
                             <a href="#"
                                 class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <strong>Sign-in | Sign-up</strong>
+                                <strong>Sign-in</strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow">
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="SignIn">Sign-in</a></li>
-                                <li><a class="dropdown-item" asp-controller="Account" asp-action="SignUp">Sign-up</a></li>
                             </ul>
                         }
                     </div>

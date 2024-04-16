@@ -18,5 +18,13 @@ namespace InternCapstone.Data.Concrete.EfCore
         {
             return await _context.SubDivisions.Where(b => b.SubDivisionName == name).Select(b => b.SubDivisionId).FirstOrDefaultAsync();
         }
+
+        public async Task<List<string?>> GetSubDivisionNamesByDepartmentIdAsync(int departmentId)
+        {
+            return await _context.SubDivisions
+                .Where(b => b.Department.DepartmentId == departmentId)
+                .Select(b => b.SubDivisionName)
+                .ToListAsync();
+        }
     }
 }

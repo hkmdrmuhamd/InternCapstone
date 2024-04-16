@@ -7,6 +7,7 @@ namespace InternCapstone.Models
     {
         public string? FullName { get; set; }
         public string? DepartmentId { get; set; }
+        public string? SubDivision { get; set; }
         public List<SubDivision> SubDivisions { get; set; } = new List<SubDivision>(); // Kullanıcının çalıştığı bir veya birden fazla alt birim olabilir.
     }
 }

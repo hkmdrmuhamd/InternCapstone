@@ -32,6 +32,7 @@ namespace InternCapstone.Data.Concrete.EfCore
                     PhoneNumber = "1234567890",
                 };
                 await userManager.CreateAsync(userAdmin, adminPassword);
+                await userManager.AddToRoleAsync(userAdmin, "ADMIN");
             }
 
             if (!context.Departments.Any())

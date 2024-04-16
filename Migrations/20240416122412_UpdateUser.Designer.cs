@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InternCapstone.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240404115312_UpdateColumn")]
-    partial class UpdateColumn
+    [Migration("20240416122412_UpdateUser")]
+    partial class UpdateUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,6 +152,9 @@ namespace InternCapstone.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubDivision")
                         .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")

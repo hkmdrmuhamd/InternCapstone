@@ -52,6 +52,31 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+
+    // Rollerinizi tanımlayın ve oluşturun
+    var roles = new List<AppRole>
+    {
+        new AppRole { Name = "Admin", NormalizedName = "ADMIN" },
+        new AppRole { Name = "User", NormalizedName = "USER" }
+    };
+
+    foreach (var role in roles)
+    {
+        if (role.Name != null)
+        {
+            var roleExist = await roleManager.RoleExistsAsync(role.Name);
+            if (!roleExist)
+            {
+                await roleManager.CreateAsync(role);
+            }
+        }
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

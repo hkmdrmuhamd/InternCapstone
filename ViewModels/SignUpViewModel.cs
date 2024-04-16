@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using InternCapstone.Entity;
+using InternCapstone.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InternCapstone.ViewModels
@@ -19,8 +21,11 @@ namespace InternCapstone.ViewModels
         [DataType(DataType.Password)]
         [Compare(nameof(Password), ErrorMessage = "Parolalar eşleşmiyor.")]
         public string ConfirmPassword { get; set; } = string.Empty;
+        public string? SelectedRole { get; set; }
         [Required]
         public List<SelectListItem>? Departments { get; set; }
         public string? DepartmentId { get; set; }
+        public string? SubDivision { get; set; }
+        public List<SubDivision> SubDivisions { get; set; } = new List<SubDivision>();
     }
 }

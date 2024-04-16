@@ -1,4 +1,5 @@
 using InternCapstone.Data.Abstract;
+using InternCapstone.Entity;
 using InternCapstone.Models;
 using InternCapstone.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -11,15 +12,19 @@ namespace InternCapstone.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IDepartmentRepository _departmentRepository;
+        private readonly ISubDivisionRepository _subDivisionRepository;
         private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IDepartmentRepository departmentRepository, IEmailSender emailSender)
+        public AccountController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IDepartmentRepository departmentRepository, ISubDivisionRepository subDivisionRepository, IEmailSender emailSender)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _departmentRepository = departmentRepository;
+            _subDivisionRepository = subDivisionRepository;
             _emailSender = emailSender;
         }
 
@@ -33,6 +38,14 @@ namespace InternCapstone.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public IActionResult GetBranches(int DepartmentId)
+        {
+            // fieldId'ye bağlı olarak ilgili branşları getir ve JSON olarak döndür
+            var branches = _subDivisionRepository.GetSubDivisionNamesByDepartmentIdAsync(DepartmentId).Result; // Asenkron metot olduğu için Result kullanıldı
+            return Json(branches);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
@@ -43,13 +56,19 @@ namespace InternCapstone.Controllers
                     UserName = model.UserName,
                     Email = model.Email,
                     FullName = model.FullName,
-                    DepartmentId = model.DepartmentId
+                    DepartmentId = model.DepartmentId,
+                    SubDivision = model.SubDivision
                 };
                 if (model.Password != null)
                 {
                     IdentityResult result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+                        if (model.SelectedRole != null)
+                        {
+                            await _userManager.AddToRoleAsync(user, model.SelectedRole);
+                        }
+
                         if (user.Email != null)
                         {
                             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
