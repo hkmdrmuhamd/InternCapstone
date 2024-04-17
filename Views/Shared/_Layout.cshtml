@@ -178,7 +178,8 @@
                                 <strong>@User.Identity.Name</strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" asp-controller="Users" asp-action="Index"
+                                        asp-route-username="@User.Identity.Name">Profile</a></li>
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <li><a class="dropdown-item" asp-controller="Account" asp-action="SignUp">Sign-up</a></li>

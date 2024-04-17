@@ -25,6 +25,7 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(buil
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<ISubDivisionRepository, EfSubDivisionRepository>();
 builder.Services.AddScoped<IDepartmentRepository, EfDepartmentRepository>();
+builder.Services.AddScoped<IUserRepository, EfUserRepository>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

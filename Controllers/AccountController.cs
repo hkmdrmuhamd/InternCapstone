@@ -41,8 +41,7 @@ namespace InternCapstone.Controllers
         [HttpGet]
         public IActionResult GetBranches(int DepartmentId)
         {
-            // fieldId'ye bağlı olarak ilgili branşları getir ve JSON olarak döndür
-            var branches = _subDivisionRepository.GetSubDivisionNamesByDepartmentIdAsync(DepartmentId).Result; // Asenkron metot olduğu için Result kullanıldı
+            var branches = _subDivisionRepository.GetSubDivisionNamesByDepartmentIdAsync(DepartmentId).Result;
             return Json(branches);
         }
 
@@ -56,7 +55,7 @@ namespace InternCapstone.Controllers
                     UserName = model.UserName,
                     Email = model.Email,
                     FullName = model.FullName,
-                    DepartmentId = model.DepartmentId,
+                    DprtmntId = model.DepartmentId,
                     SubDivision = model.SubDivision
                 };
                 if (model.Password != null)

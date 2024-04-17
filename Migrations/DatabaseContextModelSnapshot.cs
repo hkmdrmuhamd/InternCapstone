@@ -112,7 +112,7 @@ namespace InternCapstone.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<string>("DepartmentId")
+                    b.Property<string>("DprtmntId")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
