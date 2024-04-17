@@ -84,7 +84,6 @@
                 type: 'GET',
                 data: { DepartmentId: department },
                 success: function (data) {
-                    // Branşları dropdown listesine ekle
                     $('#SubDivision').empty();
                     $.each(data, function (index, item) {
                         $('#SubDivision').append(`<option value="${item}">${item}`);
