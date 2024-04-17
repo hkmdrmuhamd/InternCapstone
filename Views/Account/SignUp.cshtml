@@ -73,20 +73,18 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery kütüphanesini ekleyin -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#DepartmentId').change(function () {
-            var department = $(this).val(); // Seçilen alanın değerini al
+            var department = $(this).val();
 
-            // Seçilen alanın ID'sine bağlı olarak branşları al
             $.ajax({
                 url: '/Account/GetBranches',
                 type: 'GET',
                 data: { DepartmentId: department },
                 success: function (data) {
-                    // Branşları dropdown listesine ekle
-                    $('#SubDivision').empty(); // Önceki branşları temizle
+                    $('#SubDivision').empty();
                     $.each(data, function (index, item) {
                         $('#SubDivision').append(`<option value="${item}">${item}`);
                     });
