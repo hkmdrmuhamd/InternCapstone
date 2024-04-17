@@ -1,6 +1,7 @@
 using InternCapstone.Data.Abstract;
 using InternCapstone.Data.Concrete.EfCore;
 using InternCapstone.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,7 +59,6 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
 
-    // Rollerinizi tanımlayın ve oluşturun
     var roles = new List<AppRole>
     {
         new AppRole { Name = "Admin", NormalizedName = "ADMIN" },

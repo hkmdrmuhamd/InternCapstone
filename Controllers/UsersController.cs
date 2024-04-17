@@ -1,17 +1,22 @@
+using InternCapstone.ViewModels.User;
 using InternCapstone.Data.Abstract;
-using InternCapstone.ViewModels;
+using InternCapstone.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
 
 namespace InternCapstone.Controllers
 {
     public class UsersController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly UserManager<AppUser> _userManager;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository, UserManager<AppUser> userManager)
         {
             _userRepository = userRepository;
+            _userManager = userManager;
         }
 
 
@@ -31,6 +36,75 @@ namespace InternCapstone.Controllers
                 return NotFound();
             }
             return View(user);
+        }
+
+        public async Task<IActionResult> ChangePassword(string id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                return View(new ChangePasswordViewModel
+                {
+                    Id = user.Id,
+                });
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string id, ChangePasswordViewModel model)
+        {
+            if (id != model.Id)
+            {
+                return RedirectToAction("Index");
+            }
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    if (model.OldPassword != null)
+                    {
+                        var passwordCheckResult = await _userManager.CheckPasswordAsync(user, model.OldPassword);
+                        if (!passwordCheckResult)
+                        {
+                            ModelState.AddModelError("", "Eski parola yanlış.");
+                            return View(model);
+                        }
+                        else
+                        {
+                            var result = await _userManager.UpdateAsync(user);
+
+                            if (result.Succeeded && !string.IsNullOrEmpty(model.Password))
+                            {
+                                await _userManager.RemovePasswordAsync(user);
+                                await _userManager.AddPasswordAsync(user, model.Password);
+                                foreach (var cookie in Request.Cookies.Keys)
+                                {
+                                    Response.Cookies.Delete(cookie);
+                                }
+                                await HttpContext.SignOutAsync();
+                                TempData["message"] = "Şifreniz değiştirilmiştir. Lütfen tekrar giriş yapınız.";
+                                return RedirectToAction("SignIn", "Account");
+                            }
+                            else
+                            {
+                                foreach (IdentityError error in result.Errors)
+                                {
+                                    ModelState.AddModelError("", error.Description);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return View(model);
         }
     }
 }
