@@ -1,7 +1,7 @@
 using InternCapstone.Data.Abstract;
 using InternCapstone.Entity;
 using InternCapstone.Models;
-using InternCapstone.ViewModels;
+using InternCapstone.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

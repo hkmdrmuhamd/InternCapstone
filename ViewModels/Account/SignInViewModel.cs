@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InternCapstone.ViewModels
+namespace InternCapstone.ViewModels.Account
 {
     public class SignInViewModel
     {

@@ -3,7 +3,7 @@ using InternCapstone.Entity;
 using InternCapstone.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace InternCapstone.ViewModels
+namespace InternCapstone.ViewModels.Account
 {
     public class SignUpViewModel
     {
