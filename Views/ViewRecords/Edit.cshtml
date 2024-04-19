@@ -1,0 +1,75 @@
+﻿@model EditViewModel
+
+<h2>Edit User</h2>
+<hr>
+<form asp-action="Edit" method="post">
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    Kullanıcı Bilgileri
+                </div>
+                <div class="card-body">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="mb-3">
+                        <label asp-for="UserName" class="form-label"></label>
+                        <input asp-for="UserName" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    Roller
+                </div>
+                <div class="card-body">
+                    @foreach (var role in ViewBag.Roles)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="SelectedRoles" value="@role" id="@role"
+                                @if(Model.SelectedRoles != null)
+                                {
+                                    @(Model.SelectedRoles.Any(i => i == role) ? "checked" : "")
+                                }
+                                onclick="limitCheckboxSelection('@role')">
+                            <label class="form-check-label" for="@role">@role</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="form-container">
+            <div>
+                <button class="btn btn-primary mt-2" type="submit">Kaydet</button>
+            </div>
+        </div>
+</form>
+
+<script>
+    function limitCheckboxSelection(role) {
+        var checkboxes = document.getElementsByName('SelectedRoles');
+        var checkedCount = 0;
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                checkedCount++;
+            }
+        }
+
+        if (checkedCount > 1) {
+            alert('Sadece bir rol seçebilirsiniz.');
+            // Şu anda tıklanan checkbox'un seçimini iptal etmek için:
+            document.getElementById(role).checked = false;
+        }
+    }
+</script>
