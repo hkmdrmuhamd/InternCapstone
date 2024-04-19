@@ -24,26 +24,25 @@
                     </div>
                     <div class="col-6">
                         <label class="labels">Department</label>
-                        @{
-                            switch (Model.DprtmntId)
-                            {
-                                case "1":
-                                    <input type="text" class="form-control" value="Bilgi İşlem Departmanı" readonly>
-                                    break;
-                                case "2":
-                                    <input type="text" class="form-control" value="İnsan Kaynakları Departmanı" readonly>
-                                    break;
-                                case "3":
-                                    <input type="text" class="form-control" value="Maliye Departmanı" readonly>
-                                    break;
-                                default:
-                                    break;
-                            }
+                        @if (Model.Department == null)
+                        {
+                            <input type="text" class="form-control" value="ROLE ADMIN" readonly>
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" value="@Model.Department" readonly>
                         }
                     </div>
                     <div class="col-12 mt-2">
                         <label class="labels">SubDivision</label>
-                        <input type="text" class="form-control" value="@Model.SubDivision" readonly>
+                        @if (Model.SubDivision == null)
+                        {
+                            <input type="text" class="form-control" value="ROLE ADMIN" readonly>
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" value="@Model.SubDivision" readonly>
+                        }
                     </div>
                 </div>
                 <div class="mt-3 d-flex justify-content-between">

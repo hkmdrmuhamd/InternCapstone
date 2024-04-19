@@ -25,14 +25,14 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="DepartmentId" class="form-label">Departman</label>
-                        <select class="form-control" id="DepartmentId" name="DepartmentId">
+                        <label for="DepartmentName" class="form-label">Departman</label>
+                        <select class="form-control" id="DepartmentName" name="DepartmentName">
                             <option value="">-- Seçiniz --</option>
                             @if (Model.Departments != null)
                             {
                                 @foreach (var department in Model.Departments)
                                 {
-                                    <option value="@department.Value">@department.Text</option>
+                                    <option value="@department.Text">@department.Text</option>
                                 }
                             }
                         </select>
@@ -76,13 +76,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#DepartmentId').change(function () {
+        $('#DepartmentName').change(function () {
             var department = $(this).val();
 
             $.ajax({
                 url: '/Account/GetBranches',
                 type: 'GET',
-                data: { DepartmentId: department },
+                data: { DepartmentName: department },
                 success: function (data) {
                     $('#SubDivision').empty();
                     $.each(data, function (index, item) {

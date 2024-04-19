@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InternCapstone.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240417074406_UpdateAppUser")]
-    partial class UpdateAppUser
+    [Migration("20240419073532_Update")]
+    partial class Update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,7 +115,7 @@ namespace InternCapstone.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<string>("DprtmntId")
+                    b.Property<string>("Department")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")

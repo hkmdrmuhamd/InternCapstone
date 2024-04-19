@@ -24,7 +24,7 @@ namespace InternCapstone.ViewModels.Account
         public string? SelectedRole { get; set; }
         [Required]
         public List<SelectListItem>? Departments { get; set; }
-        public string? DepartmentId { get; set; }
+        public string? DepartmentName { get; set; }
         public string? SubDivision { get; set; }
         public List<SubDivision> SubDivisions { get; set; } = new List<SubDivision>();
     }

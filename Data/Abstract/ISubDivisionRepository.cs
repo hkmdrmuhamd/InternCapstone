@@ -6,6 +6,6 @@ namespace InternCapstone.Data.Abstract
     {
         IQueryable<SubDivision> SubDivisions { get; }
         Task<int> GetSubDivisionIdByNameAsync(string? name);
-        Task<List<string?>> GetSubDivisionNamesByDepartmentIdAsync(int departmentId);
+        Task<List<string?>> GetSubDivisionNamesByDepartmentNameAsync(string department);
     }
 }

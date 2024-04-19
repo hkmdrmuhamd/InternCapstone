@@ -39,23 +39,23 @@ namespace InternCapstone.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetBranches(int DepartmentId)
+        public IActionResult GetBranches(string DepartmentName)
         {
-            var branches = _subDivisionRepository.GetSubDivisionNamesByDepartmentIdAsync(DepartmentId).Result;
+            var branches = _subDivisionRepository.GetSubDivisionNamesByDepartmentNameAsync(DepartmentName).Result;
             return Json(branches);
         }
 
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
-            if (model.DepartmentId != null)
+            if (model.DepartmentName != null)
             {
                 var user = new AppUser
                 {
                     UserName = model.UserName,
                     Email = model.Email,
                     FullName = model.FullName,
-                    DprtmntId = model.DepartmentId,
+                    Department = model.DepartmentName,
                     SubDivision = model.SubDivision
                 };
                 if (model.Password != null)
