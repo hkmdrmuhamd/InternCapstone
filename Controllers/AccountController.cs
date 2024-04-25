@@ -2,6 +2,7 @@ using InternCapstone.Data.Abstract;
 using InternCapstone.Entity;
 using InternCapstone.Models;
 using InternCapstone.ViewModels.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,7 +28,7 @@ namespace InternCapstone.Controllers
             _subDivisionRepository = subDivisionRepository;
             _emailSender = emailSender;
         }
-
+        [Authorize]
         public async Task<IActionResult> SignUp()
         {
             var departments = await _departmentRepository.Departments.Select(i => new SelectListItem { Value = i.DepartmentId.ToString(), Text = i.DepartmentName }).ToListAsync();
@@ -38,6 +39,7 @@ namespace InternCapstone.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetBranches(string DepartmentName)
         {
@@ -45,6 +47,7 @@ namespace InternCapstone.Controllers
             return Json(branches);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
