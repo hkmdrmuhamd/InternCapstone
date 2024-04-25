@@ -116,7 +116,7 @@
                         </a>
                     </li>
                 }
-                @if (User.Identity!.IsAuthenticated)
+                @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
                 {
                     <li>
                         <a asp-controller="ViewRecords" asp-action="Index" class="nav-link link-body-emphasis">

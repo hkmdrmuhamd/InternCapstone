@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InternCapstone.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly IUserRepository _userRepository;

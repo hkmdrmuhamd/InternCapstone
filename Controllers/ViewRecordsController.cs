@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InternCapstone.ViewModels.ViewRecords;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InternCapstone.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ViewRecordsController : Controller
     {
         public readonly UserManager<AppUser> _userManager;
