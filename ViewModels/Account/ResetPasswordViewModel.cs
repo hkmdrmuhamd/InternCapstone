@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InternCapstone.Models
+namespace InternCapstone.ViewModels.Account
 {
     public class ResetPasswordViewModel
     {
