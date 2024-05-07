@@ -1,4 +1,4 @@
-# Proje Adı
+# InternCapstone
 
 Bu proje, bir destek talep yönetim sistemi oluşturmak için ASP.NET MVC, Python Flask API ve metin işleme tekniklerini kullanır. Sistem, destek taleplerini yönetmek ve kullanıcıların taleplerini bildirmek için bir web arayüzü sağlar. Ayrıca, chatbot kullanarak gelen talepleri otomatik olarak işleyebilir ve ilgili birimdeki çalışanlara yeni iş bildirimi yapabilir.
 
@@ -21,7 +21,7 @@ Bu proje, bir destek talep yönetim sistemi oluşturmak için ASP.NET MVC, Pytho
    - Proje ayarlarını yapılandırın (SmtpEmailSender, Identity vb.).
 
 2. **Python Flask API Kurulumu:**
-   - `Chatbot` klasörüne gidin.
+   - `ChatBot` klasörüne gidin.
    - Gerekli paketleri yükleyin.
    - Flask API'yi çalıştırın.
 
