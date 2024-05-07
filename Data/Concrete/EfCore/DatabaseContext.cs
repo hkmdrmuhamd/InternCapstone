@@ -11,7 +11,9 @@ namespace InternCapstone.Data.Concrete.EfCore
         {
         }
 
+        public DbSet<Demand> Demands => Set<Demand>();
         public DbSet<Department> Departments => Set<Department>();
         public DbSet<SubDivision> SubDivisions => Set<SubDivision>();
+        public DbSet<ChatBotAnswer> ChatBotAnswers => Set<ChatBotAnswer>();
     }
 }

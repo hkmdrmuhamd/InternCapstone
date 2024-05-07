@@ -27,6 +27,7 @@ builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Databa
 builder.Services.AddScoped<ISubDivisionRepository, EfSubDivisionRepository>();
 builder.Services.AddScoped<IDepartmentRepository, EfDepartmentRepository>();
 builder.Services.AddScoped<IUserRepository, EfUserRepository>();
+builder.Services.AddScoped<HttpClient>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
