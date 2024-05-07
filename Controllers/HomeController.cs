@@ -1,34 +1,38 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using InternCapstone.Models;
 using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
+using System.Security.Claims;
+using InternCapstone.Data.Abstract;
+using InternCapstone.Entity;
+using InternCapstone.Data.Concrete.EfCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternCapstone.Controllers;
 
 [Authorize]
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IUserRepository _userRepository;
+    private readonly DatabaseContext _context;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(DatabaseContext context, IUserRepository userRepository)
     {
-        _logger = logger;
+        _context = context;
+        _userRepository = userRepository;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var userName = User.FindFirstValue(ClaimTypes.Name);
+        var departmentName = await _userRepository.GetDepartmentNameByUserNameAsync(userName);
+        var names = await _context.ChatBotAnswers.Select(a => a.Answer).ToListAsync();
+        if (names.Contains(departmentName))
+        {
+            ViewBag.ShowNewTaskMessage = true;
+        }
+        else
+        {
+            ViewBag.ShowNewTaskMessage = false;
+        }
         return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

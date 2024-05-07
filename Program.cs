@@ -1,5 +1,6 @@
 using InternCapstone.Data.Abstract;
 using InternCapstone.Data.Concrete.EfCore;
+using InternCapstone.Entity;
 using InternCapstone.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +28,9 @@ builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Databa
 builder.Services.AddScoped<ISubDivisionRepository, EfSubDivisionRepository>();
 builder.Services.AddScoped<IDepartmentRepository, EfDepartmentRepository>();
 builder.Services.AddScoped<IUserRepository, EfUserRepository>();
+builder.Services.AddScoped<IDemandRepository, EfDemandRepository>();
 builder.Services.AddScoped<HttpClient>();
+builder.Services.AddScoped<ChatBotAnswer>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
