@@ -44,7 +44,8 @@ namespace InternCapstone.Controllers
                     {
                         Text = model.Text,
                         UserName = userName,
-                        DepartmentName = departmentName
+                        DepartmentName = departmentName,
+                        Status = model.Status
                     };
 
                     _context.Demands.Add(demand);

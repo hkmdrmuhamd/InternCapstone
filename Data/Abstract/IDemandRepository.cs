@@ -8,5 +8,7 @@ namespace InternCapstone.Data.Abstract
 
         Task<string?> GetDepartmentNameByUserNameAsync(string? userName);
         Task<string?> GetTextByUserNameAsync(string? userName);
+        Task<string?> GetStatusByUserNameAsync(string? userName);
+        Task<int?> GetIdByUserName(string? userName);
     }
 }

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InternCapstone.Migrations
 {
     /// <inheritdoc />
-    public partial class DemandAndChatBotAnswer : Migration
+    public partial class UpdateDemand : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -76,7 +76,8 @@ namespace InternCapstone.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Text = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
                     UserName = table.Column<string>(type: "text", nullable: true),
-                    DepartmentName = table.Column<string>(type: "text", nullable: true)
+                    DepartmentName = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

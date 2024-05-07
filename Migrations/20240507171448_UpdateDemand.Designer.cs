@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InternCapstone.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240507080354_DemandAndChatBotAnswer")]
-    partial class DemandAndChatBotAnswer
+    [Migration("20240507171448_UpdateDemand")]
+    partial class UpdateDemand
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,6 +68,9 @@ namespace InternCapstone.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DepartmentName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
                         .HasColumnType("text");
 
                     b.Property<string>("Text")

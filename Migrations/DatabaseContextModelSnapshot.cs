@@ -67,6 +67,9 @@ namespace InternCapstone.Migrations
                     b.Property<string>("DepartmentName")
                         .HasColumnType("text");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
                     b.Property<string>("Text")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
