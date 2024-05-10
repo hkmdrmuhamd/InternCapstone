@@ -99,7 +99,7 @@
             <ul class="nav flex-column">
                 <li>
                     <a href="/home/index" class="nav-link active" aria-current="page">
-                        <svg class="bi pe-none me-2" width="16" height="16">
+                        <svg class="bi pe-none me-2" width="8" height="8">
                             <use xlink:href="#home" />
                         </svg>
                         Home
@@ -109,7 +109,7 @@
                 {
                     <li>
                         <a asp-controller="Demand" asp-action="Index" class="nav-link link-body-emphasis">
-                            <svg class="bi pe-none me-2" width="16" height="16">
+                            <svg class="bi pe-none me-2" width="8" height="8">
                                 <use xlink:href="#envelope-plus" />
                             </svg>
                             Submit Request
@@ -120,10 +120,21 @@
                 {
                     <li>
                         <a asp-controller="ViewRecords" asp-action="Index" class="nav-link link-body-emphasis">
-                            <svg class="bi pe-none me-2" width="16" height="16">
+                            <svg class="bi pe-none me-2" width="8" height="8">
                                 <use xlink:href="#people-circle" />
                             </svg>
                             View Records
+                        </a>
+                    </li>
+                }
+                @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a asp-controller="Department" asp-action="CreateDepartment" class="nav-link link-body-emphasis">
+                            <svg class="bi pe-none me-2" width="8" height="8">
+                                <use xlink:href="#people-circle" />
+                            </svg>
+                            Add Department
                         </a>
                     </li>
                 }
