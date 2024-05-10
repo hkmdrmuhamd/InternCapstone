@@ -1,5 +1,5 @@
 ﻿<div class="container mt-0">
-    @if (ViewBag.ShowNewTaskMessage)
+    @if (ViewBag.ShowNewTaskMessage != null && ViewBag.ShowNewTaskMessage != false)
     {
         <div class="alert alert-info" role="alert">
             <span class="badge badge-pill badge-danger" style="color: red;">Yeni!</span>
