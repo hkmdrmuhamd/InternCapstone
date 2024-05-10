@@ -4,12 +4,14 @@ using InternCapstone.Data.Concrete.EfCore;
 using InternCapstone.Entity;
 using InternCapstone.Models;
 using InternCapstone.ViewModels.Demand;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace InternCapstone.Controllers
 {
+    [Authorize]
     public class HelpRequestController : Controller
     {
         private readonly DatabaseContext _context;
