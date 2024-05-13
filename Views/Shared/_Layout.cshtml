@@ -1,11 +1,4 @@
-﻿@if (TempData["message"] != null)
-{
-    <div class="alert alert-warning">
-        @TempData["Message"]
-    </div>
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -33,7 +26,7 @@
             height: 100%;
             width: 250px;
             position: fixed;
-            z-index: 1;
+            z-index: 1050;
             top: 0;
             left: -250px;
             background-color: #111;
@@ -55,6 +48,13 @@
             color: #f1f1f1;
         }
 
+
+        #main {
+            padding: 80px 16px 16px 16px;
+            margin-left: 0;
+            transition: margin-left .5s;
+        }
+
         .openbtn {
             font-size: 20px;
             cursor: pointer;
@@ -66,11 +66,7 @@
             top: 20px;
             left: 20px;
             transition: transform .3s;
-        }
-
-        #main {
-            padding: 16px;
-            margin-left: 0;
+            z-index: 1060;
         }
 
         .openbtn.open {
@@ -81,7 +77,21 @@
             background-color: blue;
         }
 
-        @@media screen and (max-height: 450px) {
+        .navbar {
+            z-index: 1070;
+        }
+
+        .navbar {
+            position: fixed;
+            width: 100%;
+            transition: left .5s;
+        }
+
+        .navbar.sidebar-opened {
+            left: 250px;
+        }
+
+        @@mediascreenand (max-height: 450px) {
             .sidebar {
                 padding-top: 15px;
             }
@@ -91,17 +101,40 @@
             }
         }
     </style>
+
 </head>
 
 <body>
     <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">InternCapstone</a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/home/index">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <button class="openbtn" type="button" onclick="toggleSidebar()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <div id="sidebar" class="sidebar">
             <ul class="nav flex-column">
+                @if (TempData["message"] != null)
+                {
+                    <li>
+                        <div class="alert alert-warning">
+                            @TempData["Message"]
+                        </div>
+                    </li>
+                }
                 <li>
                     <a href="/home/index" class="nav-link active" aria-current="page">
-                        <svg class="bi pe-none me-2" width="8" height="8">
-                            <use xlink:href="#home" />
-                        </svg>
+                        <i class="bi bi-house"></i>
                         Home
                     </a>
                 </li>
@@ -109,9 +142,7 @@
                 {
                     <li>
                         <a asp-controller="Demand" asp-action="Index" class="nav-link link-body-emphasis">
-                            <svg class="bi pe-none me-2" width="8" height="8">
-                                <use xlink:href="#envelope-plus" />
-                            </svg>
+                            <i class="bi bi-question-octagon"></i>
                             Submit Request
                         </a>
                     </li>
@@ -120,9 +151,7 @@
                 {
                     <li>
                         <a asp-controller="ViewRecords" asp-action="Index" class="nav-link link-body-emphasis">
-                            <svg class="bi pe-none me-2" width="8" height="8">
-                                <use xlink:href="#people-circle" />
-                            </svg>
+                            <i class="bi bi-person-lines-fill"></i>
                             View Records
                         </a>
                     </li>
@@ -131,8 +160,14 @@
                 {
                     <li>
                         <a asp-controller="Department" asp-action="CreateDepartment" class="nav-link link-body-emphasis">
-                            <svg class="bi pe-none me-2" width="8" height="8">
-                                <use xlink:href="#people-circle" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-building-down" viewBox="0 0 16 16">
+                                <path
+                                    d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7m.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0" />
+                                <path
+                                    d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z" />
+                                <path
+                                    d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
                             </svg>
                             Add Department
                         </a>
@@ -176,13 +211,12 @@
         </div>
 
         <div id="main">
-            <button class="btn btn-secondary" onclick="toggleSidebar()">
-                <i class="bi bi-list"></i>
-            </button>
             <main role="main">
-                <div class="row">
-                    <div class="col">
-                        @RenderBody()
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            @RenderBody()
+                        </div>
                     </div>
                 </div>
             </main>
@@ -190,29 +224,34 @@
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script>
+            $(document).ready(function () {
+                toggleSidebar();
+            });
+
             function toggleSidebar() {
                 var sidebar = document.getElementById("sidebar");
-                var main = document.getElementById("main");
+                var navbar = document.querySelector(".navbar");
                 var button = document.querySelector(".openbtn");
+                var main = document.getElementById("main");
 
                 if (sidebar.style.left === "0px") {
                     sidebar.style.left = "-250px";
-                    main.style.marginLeft = "0";
+                    navbar.classList.remove("sidebar-opened");
                     button.classList.remove("open");
+                    main.style.marginLeft = "0";
                 } else {
                     sidebar.style.left = "0px";
-                    main.style.marginLeft = "250px";
+                    navbar.classList.add("sidebar-opened");
                     button.classList.add("open");
+                    main.style.marginLeft = "250px";
                 }
             }
         </script>
     </header>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    </div>
 </body>
 
 </html>
