@@ -1,31 +1,79 @@
 @model SignUpViewModel
 
-<div style="background-color: white; padding: 20px; text-align: center; margin-top: 150px;">
-    <div style="display: inline-block; text-align: left; max-width: 500px;">
-        <h2>Kayıt Ol</h2>
-        <hr>
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        h2 {
+            color: #343a40;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            color: #495057;
+        }
+
+        .form-control {
+            border-color: #ced4da;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="text-center mb-4">Kayıt Ol</h2>
         <form asp-action="SignUp" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="FullName" class="form-label">Tam Adı</label>
+                        <label for="FullName">Tam Adı</label>
                         <input asp-for="FullName" class="form-control" id="FullName" placeholder="Tam adınızı girin" />
                         <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="Email" class="form-label">E-Posta</label>
+                        <label for="Email">E-Posta</label>
                         <input asp-for="Email" class="form-control" id="Email" placeholder="E-posta adresinizi girin" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="Password" class="form-label">Parola</label>
+                        <label for="Password">Parola</label>
                         <input asp-for="Password" type="password" class="form-control" id="Password"
                             placeholder="Parolanızı girin" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="DepartmentName" class="form-label">Departman</label>
+                        <label for="DepartmentName">Departman</label>
                         <select class="form-control" id="DepartmentName" name="DepartmentName">
                             <option value="">-- Seçiniz --</option>
                             @if (Model.Departments != null)
@@ -40,13 +88,13 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="UserName" class="form-label">Kullanıcı Adı</label>
+                        <label for="UserName">Kullanıcı Adı</label>
                         <input asp-for="UserName" class="form-control" id="UserName"
                             placeholder="Kullanıcı adınızı girin" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="SelectedRole" class="form-label">Rol</label>
+                        <label for="SelectedRole">Rol</label>
                         <select class="form-control" id="SelectedRole" name="SelectedRole">
                             <option value="">-- Seçiniz --</option>
                             <option value="admin">Admin</option>
@@ -54,45 +102,47 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="ConfirmPassword" class="form-label">Parola Doğrula</label>
+                        <label for="ConfirmPassword">Parola Doğrula</label>
                         <input asp-for="ConfirmPassword" type="password" class="form-control" id="ConfirmPassword"
                             placeholder="Parolanızı tekrar girin" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="SubDivision" class="form-label">SubDivision</label>
+                        <label for="SubDivision">SubDivision</label>
                         <select class="form-control" id="SubDivision" name="SubDivision">
                             <option value="">-- Seçiniz --</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2"
-                style="align-item: center; justify-content: center; ">Kayıt Ol</button>
+            <button type="submit" class="btn btn-primary mt-2 d-block mx-auto" style="width: 200px;">Kayıt Ol</button>
         </form>
     </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#DepartmentName').change(function () {
-            var department = $(this).val();
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#DepartmentName').change(function () {
+                var department = $(this).val();
 
-            $.ajax({
-                url: '/Account/GetBranches',
-                type: 'GET',
-                data: { DepartmentName: department },
-                success: function (data) {
-                    $('#SubDivision').empty();
-                    $.each(data, function (index, item) {
-                        $('#SubDivision').append(`<option value="${item}">${item}`);
-                    });
-                },
-                error: function () {
-                    console.log("Bir hata oluştu");
-                }
+                $.ajax({
+                    url: '/Account/GetBranches',
+                    type: 'GET',
+                    data: { DepartmentName: department },
+                    success: function (data) {
+                        $('#SubDivision').empty();
+                        $.each(data, function (index, item) {
+                            $('#SubDivision').append(`<option value="${item}">${item}`);
+                        });
+                    },
+                    error: function () {
+                        console.log("Bir hata oluştu");
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
+
+</body>
+
+</html>
