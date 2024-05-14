@@ -40,6 +40,11 @@ namespace InternCapstone.Controllers
                     ViewBag.Text = await _demandRepository.GetTextByUserNameAsync(username);
                 }
             }
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                ViewData["FullName"] = user.FullName;
+            }
             return View();
         }
 

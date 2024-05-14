@@ -26,8 +26,13 @@ namespace InternCapstone.Controllers
             _httpClient = httpClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                ViewData["FullName"] = user.FullName;
+            }
             return View();
         }
 

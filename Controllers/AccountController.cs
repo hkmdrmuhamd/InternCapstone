@@ -36,6 +36,11 @@ namespace InternCapstone.Controllers
             {
                 Departments = departments
             };
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                ViewData["FullName"] = user.FullName;
+            }
             return View(viewModel);
         }
 
@@ -169,8 +174,13 @@ namespace InternCapstone.Controllers
             return RedirectToAction("SignIn");
         }
 
-        public IActionResult ForgotPassword()
+        public async Task<IActionResult> ForgotPassword()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                ViewData["FullName"] = user.FullName;
+            }
             return View();
         }
 
@@ -198,7 +208,7 @@ namespace InternCapstone.Controllers
             return View();
         }
 
-        public IActionResult ResetPassword(string Id, string token)
+        public async Task<IActionResult> ResetPassword(string Id, string token)
         {
             if (Id == null || token == null)
             {
@@ -207,6 +217,11 @@ namespace InternCapstone.Controllers
             }
 
             var model = new ResetPasswordViewModel { Token = token };
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                ViewData["FullName"] = user.FullName;
+            }
             return View(model);
         }
 

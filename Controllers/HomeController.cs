@@ -6,6 +6,8 @@ using InternCapstone.Entity;
 using InternCapstone.Data.Concrete.EfCore;
 using Microsoft.EntityFrameworkCore;
 using InternCapstone.ViewModels.Demand;
+using Microsoft.AspNetCore.Identity;
+using InternCapstone.Models;
 
 namespace InternCapstone.Controllers;
 
@@ -15,12 +17,14 @@ public class HomeController : Controller
     private readonly IUserRepository _userRepository;
     private readonly IDemandRepository _demandRepository;
     private readonly DatabaseContext _context;
+    private readonly UserManager<AppUser> _userManager;
 
-    public HomeController(DatabaseContext context, IUserRepository userRepository, IDemandRepository demandRepository)
+    public HomeController(DatabaseContext context, IUserRepository userRepository, IDemandRepository demandRepository, UserManager<AppUser> userManager)
     {
         _context = context;
         _userRepository = userRepository;
         _demandRepository = demandRepository;
+        _userManager = userManager;
     }
 
     public async Task<IActionResult> Index()
@@ -40,6 +44,11 @@ public class HomeController : Controller
             {
                 ViewBag.ShowNewTaskMessage = false;
             }
+        }
+        var user = await _userManager.GetUserAsync(User);
+        if (user != null)
+        {
+            ViewData["FullName"] = user.FullName;
         }
         return View();
     }

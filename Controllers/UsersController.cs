@@ -22,7 +22,7 @@ namespace InternCapstone.Controllers
         }
 
 
-        public IActionResult Index(string username)
+        public async Task<IActionResult> Index(string username)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -36,6 +36,11 @@ namespace InternCapstone.Controllers
             if (user is null)
             {
                 return NotFound();
+            }
+            var userList = await _userManager.GetUserAsync(User);
+            if (userList != null)
+            {
+                ViewData["FullName"] = userList.FullName;
             }
             return View(user);
         }
@@ -55,7 +60,11 @@ namespace InternCapstone.Controllers
                     Id = user.Id,
                 });
             }
-
+            var userList = await _userManager.GetUserAsync(User);
+            if (userList != null)
+            {
+                ViewData["FullName"] = userList.FullName;
+            }
             return RedirectToAction("Index");
         }
 

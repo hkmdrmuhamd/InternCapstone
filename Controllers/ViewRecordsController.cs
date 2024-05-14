@@ -19,8 +19,13 @@ namespace InternCapstone.Controllers
             _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                ViewData["FullName"] = user.FullName;
+            }
             return View(_userManager.Users);
         }
 
@@ -44,7 +49,11 @@ namespace InternCapstone.Controllers
                     SelectedRoles = await _userManager.GetRolesAsync(user)
                 });
             }
-
+            var userList = await _userManager.GetUserAsync(User);
+            if (userList != null)
+            {
+                ViewData["FullName"] = userList.FullName;
+            }
             return RedirectToAction("Index");
         }
 

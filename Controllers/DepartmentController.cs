@@ -12,18 +12,25 @@ namespace InternCapstone.Controllers
     public class DepartmentController : Controller
     {
         public readonly DatabaseContext _context;
-        public DepartmentController(DatabaseContext context)
+        private readonly UserManager<AppUser> _userManager;
+        public DepartmentController(DatabaseContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult CreateDepartment()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                ViewData["FullName"] = user.FullName;
+            }
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateDepartment(DepartmentViewModel model)
+        public IActionResult Index(DepartmentViewModel model)
         {
             var department = new Department
             {
