@@ -2,256 +2,241 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - InternCapstone</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/InternCapstone.styles.css" asp-append-version="true" />
-    <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
-    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
-    <meta name="theme-color" content="#712cf9">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css"
-        rel="stylesheet">
-    <style>
-        body {
-            font-family: "Arial", sans-serif;
-            transition: margin-left .5s;
-        }
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            z-index: 1050;
-            top: 0;
-            left: -250px;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
+  <title>Destek Talep</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
 
-        .sidebar a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
+  <link href="img/logo.png" rel="icon" />
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon" />
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
 
-        .sidebar a:hover {
-            color: #f1f1f1;
-        }
-
-
-        #main {
-            padding: 80px 16px 16px 16px;
-            margin-left: 0;
-            transition: margin-left .5s;
-        }
-
-        .openbtn {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #111;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            transition: transform .3s;
-            z-index: 1060;
-        }
-
-        .openbtn.open {
-            transform: translateX(250px);
-        }
-
-        .nav-item.active {
-            background-color: blue;
-        }
-
-        .navbar {
-            z-index: 1070;
-        }
-
-        .navbar {
-            position: fixed;
-            width: 100%;
-            transition: left .5s;
-        }
-
-        .navbar.sidebar-opened {
-            left: 250px;
-        }
-
-        @@mediascreenand (max-height: 450px) {
-            .sidebar {
-                padding-top: 15px;
-            }
-
-            .sidebar a {
-                font-size: 18px;
-            }
-        }
-    </style>
-
+  <link href="css/style.css" rel="stylesheet" />
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">InternCapstone</a>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/home/index">Home</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <button class="openbtn" type="button" onclick="toggleSidebar()">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <img src="img/logo.png" alt="" style="width: 40px; height: 40;" />
+      <span class="d-none d-lg-block">Destek Talep</span>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
 
-        <div id="sidebar" class="sidebar">
-            <ul class="nav flex-column">
-                @if (TempData["message"] != null)
-                {
-                    <li>
-                        <div class="alert alert-warning">
-                            @TempData["Message"]
-                        </div>
-                    </li>
-                }
-                <li>
-                    <a href="/home/index" class="nav-link active" aria-current="page">
-                        <i class="bi bi-house"></i>
-                        Home
-                    </a>
-                </li>
-                @if (User.Identity!.IsAuthenticated)
-                {
-                    <li>
-                        <a asp-controller="Demand" asp-action="Index" class="nav-link link-body-emphasis">
-                            <i class="bi bi-question-octagon"></i>
-                            Submit Request
-                        </a>
-                    </li>
-                }
-                @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
-                {
-                    <li>
-                        <a asp-controller="ViewRecords" asp-action="Index" class="nav-link link-body-emphasis">
-                            <i class="bi bi-person-lines-fill"></i>
-                            View Records
-                        </a>
-                    </li>
-                }
-                @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
-                {
-                    <li>
-                        <a asp-controller="Department" asp-action="CreateDepartment" class="nav-link link-body-emphasis">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-building-down" viewBox="0 0 16 16">
-                                <path
-                                    d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7m.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0" />
-                                <path
-                                    d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z" />
-                                <path
-                                    d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
-                            </svg>
-                            Add Department
-                        </a>
-                    </li>
-                }
-            </ul>
-            <hr>
-            <div class="dropdown">
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-primary badge-number">4</span> </a>
 
-                        <strong>@User.Identity.Name</strong>
-                    </a>
-                    <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" asp-controller="Users" asp-action="Index"
-                                asp-route-username="@User.Identity.Name">Profile</a></li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li><a class="dropdown-item" asp-controller="Account" asp-action="SignUp">User Register</a>
-                            </li>
-                        }
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                    </ul>
-                }
-                else
-                {
-                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>Sign-in</strong>
-                    </a>
-                    <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" asp-controller="Account" asp-action="SignIn">Sign-in</a></li>
-                    </ul>
-                }
-            </div>
-        </div>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+            <li class="dropdown-header">
+              You have 4 new notifications
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
 
-        <div id="main">
-            <main role="main">
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            @RenderBody()
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4>Lorem Ipsum</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>30 min. ago</p>
+              </div>
+            </li>
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                toggleSidebar();
-            });
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
 
-            function toggleSidebar() {
-                var sidebar = document.getElementById("sidebar");
-                var navbar = document.querySelector(".navbar");
-                var button = document.querySelector(".openbtn");
-                var main = document.getElementById("main");
+            <li class="notification-item">
+              <i class="bi bi-x-circle text-danger"></i>
+              <div>
+                <h4>Atque rerum nesciunt</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>1 hr. ago</p>
+              </div>
+            </li>
 
-                if (sidebar.style.left === "0px") {
-                    sidebar.style.left = "-250px";
-                    navbar.classList.remove("sidebar-opened");
-                    button.classList.remove("open");
-                    main.style.marginLeft = "0";
-                } else {
-                    sidebar.style.left = "0px";
-                    navbar.classList.add("sidebar-opened");
-                    button.classList.add("open");
-                    main.style.marginLeft = "250px";
-                }
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                <h4>Sit rerum fuga</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>2 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-info-circle text-primary"></i>
+              <div>
+                <h4>Dicta reprehenderit</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>4 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li class="dropdown-footer">
+              <a href="#">Show all notifications</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <span class="d-none d-md-block dropdown-toggle ps-2">@User.Identity?.Name</span>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>@ViewData["FullName"]</h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" asp-controller="Users" asp-action="Index"
+                asp-route-username="@User.Identity?.Name">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <i class="bi bi-gear"></i>
+                <span>Account Settings</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                <i class="bi bi-question-circle"></i>
+                <span>Need Help?</span>
+              </a>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a asp-controller="Home" asp-action="Index" class="nav-link">
+          <i class="bi bi-grid"></i>
+          <span>Home</span>
+        </a>
+      </li>
+
+      @if (User.Identity!.IsAuthenticated)
+      {
+        <li class="nav-item">
+          <a asp-controller="Demand" asp-action="Index" class="nav-link collapsed">
+            <i class="bi bi-menu-button-wide"></i><span>Submit Request</span>
+          </a>
+        </li>
+      }
+
+      @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+      {
+        <li class="nav-item">
+          <a asp-controller="ViewRecords" asp-action="Index" class="nav-link collapsed">
+            <i class="bi bi-journal-text"></i><span>View Records</span>
+          </a>
+        </li>
+      }
+      @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+      {
+        <li class="nav-item">
+          <a asp-controller="Department" asp-action="Index" class="nav-link collapsed">
+            <i class="bi bi-layout-text-window-reverse"></i><span>Add Department</span>
+          </a>
+        </li>
+      }
+  </aside>
+
+  <main id="main" class="main">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        @if (ViewContext.RouteData.Values != null)
+        {
+          @if (ViewContext.RouteData.Values["controller"]?.ToString()?.Equals("Demand") == true &&
+         ViewContext.RouteData.Values["action"]?.ToString()?.Equals("Index") == true)
+          {
+            <li class="breadcrumb-item"><a asp-controller="Demand" asp-action="Index">Submit Request</a></li>
+          }
+          @if (ViewContext.RouteData.Values["controller"]?.ToString()?.Equals("ViewRecords") == true &&
+         ViewContext.RouteData.Values["action"]?.ToString()?.Equals("Index") == true)
+          {
+            <li class="breadcrumb-item"><a asp-controller="ViewRecords" asp-action="Index">View Records</a></li>
+          }
+          @if (ViewContext.RouteData.Values["controller"]?.ToString()?.Equals("Department") == true &&
+         ViewContext.RouteData.Values["action"]?.ToString()?.Equals("Index") == true)
+          {
+            <li class="breadcrumb-item"><a asp-controller="Department" asp-action="Index">Add Department</a></li>
+          }
+        }
+      </ol>
+    </nav>
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="row">
+            @if (TempData["message"] != null)
+            {
+              <div class="alert alert-warning">
+                @TempData["Message"]
+              </div>
             }
-        </script>
-    </header>
+            @RenderBody()
+          </div>
+        </div>
+    </section>
+  </main>
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/php-email-form/validate.js"></script>
+  <script src="js/main.js"></script>
+  @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
