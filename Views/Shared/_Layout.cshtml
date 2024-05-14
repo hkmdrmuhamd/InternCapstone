@@ -9,12 +9,12 @@
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
-  <link href="img/logo.png" rel="icon" />
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon" />
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/img/logo.png" rel="icon" />
+  <link href="/img/apple-touch-icon.png" rel="apple-touch-icon" />
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
 
-  <link href="css/style.css" rel="stylesheet" />
+  <link href="/css/style.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css"
     rel="stylesheet">
 </head>
@@ -22,7 +22,7 @@
 <body>
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-      <img src="img/logo.png" alt="" style="width: 40px; height: 40;" />
+      <img src="/img/logo.png" alt="" style="width: 40px; height: 40;" />
       <span class="d-none d-lg-block">Destek Talep</span>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
@@ -30,79 +30,85 @@
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
         <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span> </a>
+          @if (User.Identity!.IsAuthenticated)
+          {
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-bell"></i>
+              <span class="badge bg-primary badge-number">4</span> </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+              <li class="dropdown-header">
+                You have 4 new notifications
+                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
+              <li class="notification-item">
+                <i class="bi bi-exclamation-circle text-warning"></i>
+                <div>
+                  <h4>Lorem Ipsum</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>30 min. ago</p>
+                </div>
+              </li>
 
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
 
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
+              <li class="notification-item">
+                <i class="bi bi-x-circle text-danger"></i>
+                <div>
+                  <h4>Atque rerum nesciunt</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>1 hr. ago</p>
+                </div>
+              </li>
 
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
 
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
+              <li class="notification-item">
+                <i class="bi bi-check-circle text-success"></i>
+                <div>
+                  <h4>Sit rerum fuga</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>2 hrs. ago</p>
+                </div>
+              </li>
 
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
 
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
+              <li class="notification-item">
+                <i class="bi bi-info-circle text-primary"></i>
+                <div>
+                  <h4>Dicta reprehenderit</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>4 hrs. ago</p>
+                </div>
+              </li>
 
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-          </ul>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li class="dropdown-footer">
+                <a href="#">Show all notifications</a>
+              </li>
+            </ul>
+          }
         </li>
 
         <li class="nav-item dropdown pe-3">
+
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-2">@User.Identity?.Name</span>
+            @if (User.Identity!.IsAuthenticated)
+            {
+              <span class="d-none d-md-block dropdown-toggle ps-2">@User.Identity?.Name</span>
+            }
           </a>
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -112,21 +118,25 @@
             <li>
               <hr class="dropdown-divider" />
             </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" asp-controller="Users" asp-action="Index"
-                asp-route-username="@User.Identity?.Name">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" asp-controller="Account" asp-action="SignUp">
-                <i class="bi bi-file-earmark-plus"></i>
-                <span>User Register</span>
-              </a>
-            </li>
+            @if (User.Identity!.IsAuthenticated)
+            {
+              <li>
+                <a class="dropdown-item d-flex align-items-center" asp-controller="Users" asp-action="Index"
+                  asp-route-username="@User.Identity?.Name">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+            }
+            @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+            {
+              <li>
+                <a class="dropdown-item d-flex align-items-center" asp-controller="Account" asp-action="SignUp">
+                  <i class="bi bi-file-earmark-plus"></i>
+                  <span>User Register</span>
+                </a>
+              </li>
+            }
 
             <li>
               <hr class="dropdown-divider" />
@@ -143,6 +153,7 @@
         </li>
       </ul>
     </nav>
+
   </header>
 
   <aside id="sidebar" class="sidebar">
@@ -180,6 +191,7 @@
           </a>
         </li>
       }
+    </ul>
   </aside>
 
   <main id="main" class="main">
@@ -210,7 +222,7 @@
     <section class="section dashboard">
       <div class="row">
         <div class="col-lg-8">
-          <div class="row">
+          <div class="row justify-content-center">
             @if (TempData["message"] != null)
             {
               <div class="alert alert-warning">
@@ -223,9 +235,9 @@
     </section>
   </main>
 
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/php-email-form/validate.js"></script>
-  <script src="js/main.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/php-email-form/validate.js"></script>
+  <script src="/js/main.js"></script>
   @await RenderSectionAsync("Scripts", required: false)
 </body>
 
