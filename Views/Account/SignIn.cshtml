@@ -1,26 +1,54 @@
 @model SignInViewModel
 
-<div style="background-color: #ffffff; padding: 20px; text-align: center; margin-top: 150px;">
-    <div style="display: inline-block; text-align: left; max-width: 300px;">
-        <h2>Lütfen Giriş Yapın</h2>
-        <hr>
-        <form asp-action="SignIn" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="mb-3">
-                <label for="UserName" class="form-label">UserName</label>
-                <input asp-for="UserName" class="form-control" id="UserName" placeholder="Kullanıcı adınızı girin" />
+<div class="container">
+    <section class="section register min-vh-200 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-8 d-flex flex-column align-items-center justify-content-center">
+                    <div class="d-flex justify-content-center py-4">
+                        <a href="index.html" class="logo d-flex align-items-center w-auto">
+                            <img src="/img/logo.png" alt="" />
+                            <span class="d-none d-lg-block">Destek Talep</span>
+                        </a>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="pt-4 pb-2">
+                                <h5 class="card-title text-center pb-0 fs-4">
+                                    Hesabınıza giriş yapın
+                                </h5>
+                                <p class="text-center small">
+                                    Giriş yapmak için parolanızı ve şifrenizi girin
+                                </p>
+                            </div>
+
+                            <form asp-action="SignIn" method="post" class="row g-3 needs-validation" novalidate>
+                                <div class="col-12">
+                                    <label for="UserName" class="form-label">Username</label>
+                                    <div class="input-group has-validation">
+                                        <span class="input-group-text" id="inputGroupPrepend"></span>
+                                        <input asp-for="UserName" id="UserName" class="form-control"
+                                            placeholder="Kullanıcı adınızı girin" />
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="Password" class="form-label">Password</label>
+                                    <input asp-for="Password" class="form-control" id="Password"
+                                        placeholder="Şifrenizi girin" type="password" />
+                                </div>
+
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100" type="submit">
+                                        Login
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="Password" class="form-label">Şifre</label>
-                <input asp-for="Password" class="form-control" id="Password" placeholder="Şifrenizi girin"
-                    type="password" />
-            </div>
-            <div class="form-check mb-3">
-                <input class="form-check-input" asp-for="RememberMe" id="RememberMe">
-                <label class="form-check-label" for="RememberMe">Beni Hatırla</label>
-            </div>
-            <button class="btn btn-primary" type="submit">Giriş Yap</button>
-            <a asp-action="ForgotPassword" class="btn btn-warning">Şifremi Unuttum</a>
-        </form>
-    </div>
+        </div>
+    </section>
 </div>
