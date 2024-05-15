@@ -35,14 +35,18 @@ public class HomeController : Controller
         var clientName = await _context.Demands.Select(a => a.UserName).ToListAsync();
         foreach (var isIn in clientName)
         {
-            var status = await _demandRepository.GetStatusByUserNameAsync(isIn);
-            if (names.Contains(departmentName) && status != "ok")
+            var text = await _context.Demands.Where(a => a.UserName == isIn).Select(a => a.Text).ToListAsync();
+            foreach (var metin in text)
             {
-                ViewBag.ShowNewTaskMessage = true;
-            }
-            else
-            {
-                ViewBag.ShowNewTaskMessage = false;
+                var status = await _demandRepository.GetStatusByTextAsync(metin);
+                if (names.Contains(departmentName) && status != "ok")
+                {
+                    ViewBag.ShowNewTaskMessage = true;
+                }
+                else
+                {
+                    ViewBag.ShowNewTaskMessage = false;
+                }
             }
         }
         var user = await _userManager.GetUserAsync(User);

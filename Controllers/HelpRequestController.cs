@@ -57,25 +57,21 @@ namespace InternCapstone.Controllers
             var clientName = await _context.Demands.Select(a => a.UserName).ToListAsync();
             foreach (var isIn in clientName)
             {
-                var demandId = await _demandRepository.GetIdByUserName(isIn);
-                var demands = _context.Demands.Find(demandId);
-                if (demands != null && demands.Status != "ok")
+                var text = await _context.Demands.Where(a => a.UserName == isIn).Select(a => a.Text).ToListAsync();
+                foreach (var metin in text)
                 {
-                    demands.Status = "ok";
-                    await _context.SaveChangesAsync();
-                    var status = await _demandRepository.GetStatusByUserNameAsync(isIn);
-                    if (names.Contains(departmentName) && status != "ok")
+                    var demandId = await _demandRepository.GetIdByText(metin);
+                    var demands = _context.Demands.Find(demandId);
+                    var status = await _demandRepository.GetStatusByTextAsync(metin);
+                    if (demands != null && status != "ok")
                     {
-                        ViewBag.ShowNewTaskMessage = true;
+                        demands.Status = "ok";
+                        await _context.SaveChangesAsync();
                     }
                     else
                     {
                         ViewBag.ShowNewTaskMessage = false;
                     }
-                }
-                else
-                {
-                    ViewBag.ShowNewTaskMessage = false;
                 }
             }
             return RedirectToAction("Index", "Home");
