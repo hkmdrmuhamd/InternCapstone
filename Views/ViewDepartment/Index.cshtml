@@ -1,0 +1,70 @@
+@using InternCapstone.Entity
+@model SubDivision
+
+<link href="/vendor/simple-datatables/style.css" rel="stylesheet">
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Departmanlar</h1>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Departman Verileri</h5>
+                        <div class="table-responsive">
+                            <table class="table datatable" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <b>Id</b>
+                                        </th>
+                                        <th>Department Name</th>
+                                        <th>Subdivisions</th>
+                                        <th style="width:125px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.SubDivisions == null)
+                                    {
+                                        <tr>
+                                            <td colspan="4" class="text-center">Departman Yok.</td>
+                                        </tr>
+                                    }
+                                    @foreach (var departman in ViewBag.SubDivisions)
+                                    {
+                                        <tr>
+                                            <td>@departman.DepartmentId</td>
+                                            <td>@departman.DepartmentName</td>
+                                            <td>
+                                                @foreach (var subdivision in departman.SubDivisions)
+                                                {
+                                                    <li>@subdivision.SubDivisionName</li>
+                                                }
+                                            </td>
+                                            <td>
+                                                <form asp-action="Delete" method="post"
+                                                    onsubmit="return confirm('Kaydı silmek istediğinize emin misiniz?')"
+                                                    style="display: inline-block;">
+                                                    <input type="hidden" value="@departman.DepartmentId" name="id" />
+                                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script src="/vendor/tinymce/tinymce.min.js"></script>
+<script src="/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/js/main.js"></script>
