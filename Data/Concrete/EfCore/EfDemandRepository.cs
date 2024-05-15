@@ -24,14 +24,19 @@ namespace InternCapstone.Data.Concrete.EfCore
             return await _context.Demands.Where(b => b.UserName == userName).Select(b => b.Text).FirstOrDefaultAsync();
         }
 
-        public async Task<string?> GetStatusByUserNameAsync(string? userName)
+        public async Task<string?> GetStatusByTextAsync(string? text)
         {
-            return await _context.Demands.Where(b => b.UserName == userName).Select(b => b.Status).FirstOrDefaultAsync();
+            return await _context.Demands.Where(b => b.Text == text).Select(b => b.Status).FirstOrDefaultAsync();
         }
 
         public async Task<int?> GetIdByUserName(string? userName)
         {
             return await _context.Demands.Where(b => b.UserName == userName).Select(b => b.Id).FirstOrDefaultAsync();
+        }
+
+        public async Task<int?> GetIdByText(string? text)
+        {
+            return await _context.Demands.Where(b => b.Text == text).Select(b => b.Id).FirstOrDefaultAsync();
         }
     }
 }
