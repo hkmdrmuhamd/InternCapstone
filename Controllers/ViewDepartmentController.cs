@@ -38,9 +38,6 @@ namespace InternCapstone.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             int departmentId = Convert.ToInt32(id);
-            // var department = await _context.Departments
-            //                                .Include(d => d.SubDivisions)
-            //                                .FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
             var departments = await _context.Departments.Include(d => d.SubDivisions).ToListAsync();
             foreach (var department in departments)
             {
